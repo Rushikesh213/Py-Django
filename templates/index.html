@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    {%load static%}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link href="{% static 'style.css' %}" rel="stylesheet">
+        
+    </head>
+    <body>
+      
+        <form class='col-md-5 mx-auto card p-3 shadow pt-10' method='POST' enctype="multipart/form-data">
+          <h3 style='text-align:center;'>Add Recipe</h3>
+          <hr>
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label for="title" class="form-label">Recipe Title</label>
+              <input type="text" class="form-control" name='recipe'>
+            </div>
+            <div class="mb-3">
+              <label for="decription" class="form-label">Recipe Description</label>
+              <textarea name="desc" cols="50" rows="5"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="files" for="exampleCheck1">Image</label>
+              <input type="file" name="image">
+      
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+    
+          <br>
+          <br>
+          <br>
+          <div class="pt-6 col-8 mx-auto card">
+            {% if data %}
+          <table class="table table-bordered" >
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Image</th>
+                <th scope="col">Action</th>
+              </tr>
+              </thead>
+             
+            <tbody>
+             
+            {% for d in data %}
+            <tr>
+                <th scope='row'>{{forloop.counter}}</th>
+                <td>{{d.recipe_title}}</td>
+                <td>{{d.recipe_desc}}</td>
+                <td><img src="/media/{{d.recipe_image}}" style='height:100px'></td>
+                <td>
+                 <a href="delete_recipe/{{d.id}}" class='btn btn-danger'>Delete</a>
+                 <a href="update_recipe/{{d.id}}" class='btn btn-success'>Update</a>
+                </td>
+             
+            </tr>
+
+            {% endfor %}
+        </tbody>
+   
+          </table>
+          {% endif %}
+        </div>
+    </body>
+</html>
